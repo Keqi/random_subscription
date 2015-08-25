@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: random_subscription_development
+
+test:
+  <<: *default
+  database: random_subscription_test
+
+production:
+  <<: *default
+  database: random_subscription_production
