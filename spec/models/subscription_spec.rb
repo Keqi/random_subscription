@@ -2,19 +2,37 @@ require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
   describe "validations" do
-    it "is not valid when email is blank" do
-      subscription = Subscription.new(email: nil)
-      expect(subscription.valid?).not_to eq(true)
+    describe "email format" do
+      it "is not valid when email is blank" do
+        subscription = Subscription.new(email: nil)
+        expect(subscription.valid?).not_to eq(true)
+      end
+
+      it "is not valid when email is not in email format" do
+        subscription = Subscription.new(email: "maciejnowak.com")
+        expect(subscription.valid?).not_to eq(true)
+      end
+
+      it "is valid when email is in email format" do
+        subscription = Subscription.new(email: "maciejnowak@gmail.com")
+        expect(subscription.valid?).to eq(true)
+      end
     end
 
-    it "is not valid when email is not in email format" do
-      subscription = Subscription.new(email: "maciejnowak.com")
-      expect(subscription.valid?).not_to eq(true)
-    end
+    describe "uniqueness" do
+      it "is not valid if email is not unique" do
+        subscription = Subscription.create!(email: "maciejnowak@gmail.com")
 
-    it "is valid when email is in email format" do
-      subscription = Subscription.new(email: "maciejnowak@gmail.com")
-      expect(subscription.valid?).to eq(true)
+        new_subscription = Subscription.new(email: "maciejnowak@gmail.com")
+        expect(new_subscription.valid?).not_to eq(true)
+      end
+
+      it "is valid if email is unique" do
+        subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+
+        new_subscription = Subscription.new(email: "maciejnowak1@gmail.com")
+        expect(new_subscription.valid?).to eq(true)
+      end
     end
   end
 end

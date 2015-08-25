@@ -1,3 +1,3 @@
 class Subscription < ActiveRecord::Base
-  validates :email, email: true
+  validates :email, uniqueness: true, email: true
 end
