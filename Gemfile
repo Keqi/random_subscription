@@ -15,6 +15,8 @@ gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'react-rails', '~> 1.0'
 gem 'sprockets-coffee-react'
 
+gem 'email_validator'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
