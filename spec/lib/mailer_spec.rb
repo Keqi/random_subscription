@@ -15,12 +15,15 @@ RSpec.describe Mailer, type: :lib do
     end
 
     it "it sends mail with all attributes" do
-      response = Mailer.send(recipients)
-      params = response.request.options[:params]
+      responses = Mailer.send(recipients)
 
-      expect(params[:from]).to eq("subscription@daily-random.com")
-      expect(params[:to]).to eq(recipients.join(", "))
-      expect(params[:subject]).to eq("Daily random quote - #{DateTime.now.strftime("%d %B, %Y")}")
+      responses.each do |response|
+        params = response.request.options[:params]
+
+        expect(params[:from]).to eq("subscription@daily-random.com")
+        expect(recipients).to include(params[:to])
+        expect(params[:subject]).to eq("Daily random quote - #{DateTime.now.strftime("%d %B, %Y")}")
+      end
     end
   end
 end

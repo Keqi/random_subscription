@@ -4,17 +4,18 @@ class Mailer
 
   def self.send(recipients)
     raise "Recipients must be an array." unless recipients.is_a? Array
-    recipients = recipients.join(", ")
-
-    request = Typhoeus::Request.new("https://api:key-#{API_KEY}@api.mailgun.net/v3/#{DOMAIN}/messages", 
-                                    method: :post, 
-                                    params: { from: from, 
-                                              to: recipients, 
-                                              subject: subject, 
-                                              text: text
-                                            }
-                                    )
-    request.run
+    
+    recipients.map do |recipient|
+      request = Typhoeus::Request.new("https://api:key-#{API_KEY}@api.mailgun.net/v3/#{DOMAIN}/messages", 
+                                      method: :post, 
+                                      params: { from: from, 
+                                                to: recipient, 
+                                                subject: subject, 
+                                                text: text
+                                              }
+                                      )
+      request.run
+    end
   end
 
   private
