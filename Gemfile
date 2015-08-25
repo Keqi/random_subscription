@@ -16,6 +16,9 @@ gem 'react-rails', '~> 1.0'
 gem 'sprockets-coffee-react'
 
 gem 'email_validator'
+gem 'fortune_gem'
+gem 'typhoeus'
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'byebug'
@@ -23,5 +26,6 @@ group :development, :test do
   gem 'spring'
   gem 'pry'
   gem 'rspec-rails'
+  gem 'webmock'
 end
 
