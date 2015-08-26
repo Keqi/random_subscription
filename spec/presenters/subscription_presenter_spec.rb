@@ -16,7 +16,7 @@ RSpec.describe SubscriptionPresenter, type: :presenters do
     end
 
     it "returns activated subcription message" do
-      expect(subject.render_message).to eq("Your account has been activated.")
+      expect(subject.render_message).to eq("Your account has been activated. You will receive one email per day with random quote :)")
     end
   end
 
