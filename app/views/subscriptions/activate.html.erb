@@ -1,0 +1,11 @@
+<div class="subscriptions">
+  <div class="ui raised very padded text container segment">
+    <div class="ui <%= @presenter.message_color %> message">
+      <div class="header">
+        <i class="<%= @presenter.icon %>"></i>
+        <%= @presenter.render_message %>
+      </div>
+      <p align="right"><%= link_to "Turn back to main page", root_path %></p>
+    </div>
+  </div>
+</div>

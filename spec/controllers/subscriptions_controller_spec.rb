@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionsController, :type => :controller do
+  before do
+    stub_request(:post, /https:\/\/api:key-.*@api.mailgun.net\/v3\/.*/).
+      with(headers: {'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus'}).
+      to_return(status: 200, body: "", headers: {})
+  end
+
   describe "POST create" do
     it "returns 201 with email when subscription was created" do
       post :create, email: "maciejnowak@gmail.com"
@@ -27,12 +33,12 @@ RSpec.describe SubscriptionsController, :type => :controller do
       expect(subscription.reload.token).to be_nil
     end
 
-    it "returns 404 with relevant message if token wasn't found" do
+    it "returns 200 with subscription not activated" do
       subscription = Subscription.create!(email: "maciejnowak@gmail.com")
 
       get :activate, token: "abcd1234"
 
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(200)
       expect(subscription.reload.token).not_to be_nil
     end
   end
