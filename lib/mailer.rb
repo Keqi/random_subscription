@@ -40,7 +40,6 @@ class Mailer
 
   private
 
-
   def self.from
     "subscription@daily-random.com"
   end

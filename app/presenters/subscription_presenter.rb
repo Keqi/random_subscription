@@ -13,7 +13,7 @@ class SubscriptionPresenter
 
   def render_message
     if active?
-      "Your account has been activated."
+      "Your account has been activated. You will receive one email per day with random quote :)"
     else
       "Your activation link expired."
     end
