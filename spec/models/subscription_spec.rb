@@ -54,4 +54,18 @@ RSpec.describe Subscription, type: :model do
       expect(subscription.token.length).to eq(8)
     end
   end
+
+  describe "scopes" do
+    describe "#active" do
+      it "returns only subscriptions that are active" do
+        active_subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+        subscription = Subscription.create!(email: "maciejnowak1@gmail.com")
+
+        active_subscription.activate
+
+        expect(Subscription.active).to include(active_subscription)
+        expect(Subscription.active).not_to include(subscription)
+      end
+    end
+  end
 end

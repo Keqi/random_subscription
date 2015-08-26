@@ -3,6 +3,8 @@ class Subscription < ActiveRecord::Base
 
   validates :email, uniqueness: true, email: true
 
+  scope :active, -> { where(token: nil) }
+
   def activate
     update_attribute(:token, nil)
   end

@@ -1,6 +1,7 @@
 namespace :emails do
   desc "Sends daily email to every Subscriber"
   task send: :environment do
-    Mailer.send(Subscription.pluck(:email))
+    emails = Subscription.active.pluck(:email)
+    Mailer.send(emails)
   end
 end
