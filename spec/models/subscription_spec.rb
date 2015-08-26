@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
+  describe "#activate" do
+    it "updates token to nil" do
+      subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+      subscription.activate
+
+      expect(subscription.token).to be_nil
+    end
+  end
+
   describe "validations" do
     describe "email format" do
       it "is not valid when email is blank" do

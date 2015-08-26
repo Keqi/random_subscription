@@ -1,6 +1,26 @@
 class Mailer
   API_KEY = ENV["MAILGUN_API_KEY"]
   DOMAIN  = ENV["MAILGUN_DOMAIN"]
+  HOST    = ENV["APP_HOST"]
+  PORT    = ENV["APP_PORT"]
+
+  def self.activate(subscription)
+    path = Rails.application.routes.url_helpers.subscription_activate_path(subscription.token)
+    url  = URI::HTTP.build(host: HOST, port: PORT.to_i, path: path)
+
+    text = "<html><p>To activate your account, please use following link:</p><p>#{url}</p></html>".html_safe
+
+
+    request = Typhoeus::Request.new("https://api:key-#{API_KEY}@api.mailgun.net/v3/#{DOMAIN}/messages", 
+                                    method: :post, 
+                                    params: { from: from, 
+                                              to: subscription.email, 
+                                              subject: "Activate your subscription at Daily-Random", 
+                                              html: text
+                                            }
+                                    )
+    request.run
+  end
 
   def self.send(recipients)
     raise "Recipients must be an array." unless recipients.is_a? Array
@@ -19,6 +39,7 @@ class Mailer
   end
 
   private
+
 
   def self.from
     "subscription@daily-random.com"

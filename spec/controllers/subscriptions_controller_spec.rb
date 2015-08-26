@@ -16,4 +16,24 @@ RSpec.describe SubscriptionsController, :type => :controller do
       expect(response.body).to be_empty
     end
   end
+
+  describe "GET activate" do
+    it "activates account if subscription with given token was found" do
+      subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+
+      get :activate, token: subscription.token
+
+      expect(response.status).to eq(200)
+      expect(subscription.reload.token).to be_nil
+    end
+
+    it "returns 404 with relevant message if token wasn't found" do
+      subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+
+      get :activate, token: "abcd1234"
+
+      expect(response.status).to eq(404)
+      expect(subscription.reload.token).not_to be_nil
+    end
+  end
 end

@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   root 'subscriptions#index'
 
+  get '/subscriptions/:token/activate', to: 'subscriptions#activate',
+                                        as: 'subscription_activate'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

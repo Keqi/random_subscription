@@ -9,6 +9,20 @@ RSpec.describe Mailer, type: :lib do
       to_return(status: 200, body: "", headers: {})
   end
 
+  describe "#activate" do
+    it "sends activation link in email for given subscription" do
+      subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+
+      response = Mailer.activate(subscription)
+      params   = response.request.options[:params]
+
+      expect(params[:from]).to eq("subscription@daily-random.com")
+      expect(params[:to]).to eq(subscription.email)
+      expect(params[:subject]).to eq("Activate your subscription at Daily-Random")
+      expect(params[:html]).to include(subscription.token)
+    end
+  end
+
   describe "#send" do
     it "raises error if recipients aren't Array type" do
       expect{Mailer.send("maciejnowak@gmail.com")}.to raise_error
