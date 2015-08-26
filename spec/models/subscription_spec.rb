@@ -67,5 +67,19 @@ RSpec.describe Subscription, type: :model do
         expect(Subscription.active).not_to include(subscription)
       end
     end
+
+    describe "#expired" do
+      it "returns subscriptions that have not been activated yet and created more than week ago" do
+        active_subscription = Subscription.create!(email: "maciejnowak@gmail.com")
+        new_subscription = Subscription.create!(email: "maciejnowak1@gmail.com")
+        old_subscription = Subscription.create!(email: "maciejnowak2@gmail.com", created_at: 2.weeks.ago)
+
+        active_subscription.activate
+
+        expect(Subscription.expired).not_to include(new_subscription)
+        expect(Subscription.expired).not_to include(active_subscription)
+        expect(Subscription.expired).to include(old_subscription)
+      end
+    end
   end
 end
