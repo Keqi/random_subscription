@@ -6,7 +6,7 @@ class Mailer
 
   def self.activate(subscription)
     path = Rails.application.routes.url_helpers.subscription_activate_path(subscription.token)
-    url  = URI::HTTP.build(host: HOST, port: PORT.to_i, path: path)
+    url  = URI::HTTP.build(host: HOST, port: PORT, path: path).to_s
 
     text = "<html><p>To activate your account, please use following link:</p><p>#{url}</p></html>".html_safe
 
