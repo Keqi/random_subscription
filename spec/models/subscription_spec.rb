@@ -35,4 +35,14 @@ RSpec.describe Subscription, type: :model do
       end
     end
   end
+
+  describe "callbacks" do
+    it "generates unique token before creation" do
+      subscription = Subscription.new(email: "maciejnowak@gmail.com")
+      subscription.save!
+
+      expect(subscription.token).not_to be_nil
+      expect(subscription.token.length).to eq(8)
+    end
+  end
 end
